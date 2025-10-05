@@ -16,7 +16,6 @@
             -ms-user-select: none;
             user-select: none;
         }
-        
 
         @media screen and (-webkit-min-device-pixel-ratio: 0) {
             body::before {
@@ -38,6 +37,11 @@
             -o-user-drag: none;
             user-drag: none;
             pointer-events: auto;
+        }
+
+        .back-button {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
     </style>
 </head>
