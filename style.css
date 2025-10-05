@@ -369,8 +369,8 @@ footer {
   .portfolio-gallery {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    /* Increased horizontal padding on mobile to prevent images from sticking to edges */
-    padding: 1rem 1.5rem;
+    /* Increased horizontal padding significantly to prevent images from sticking to right edge */
+    padding: 1rem 2rem;
   }
 
   .portfolio-item {
