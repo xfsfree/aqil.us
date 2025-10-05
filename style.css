@@ -241,7 +241,6 @@ h1 {
   padding: 2rem;
   width: 100%;
   max-width: 100vw;
-  overflow: hidden;
 }
 
 .project-content {
@@ -249,7 +248,7 @@ h1 {
   width: 100%;
   text-align: center;
   animation: fadeInUp 1s ease-out;
-  overflow: hidden;
+  padding-bottom: 2rem;
 }
 
 /* Added flexbox container for side-by-side images */
