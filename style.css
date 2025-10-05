@@ -1,0 +1,425 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #030e21, #051226, #041633, #1f0202, #240101, #260808, #040505, #0b0f2a);
+  background-size: 400% 400%;
+  animation: gradientShift 25s ease infinite;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+header {
+  width: 100%;
+  text-align: center;
+  padding: 2.5rem;
+  background: linear-gradient(45deg, rgba(5, 5, 5, 0.9), rgba(10, 14, 33, 0.9));
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+h1 {
+  font-size: 4rem;
+  font-family: "Dancing Script", cursive;
+  color: #fff;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
+}
+
+.portfolio-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+  padding: 2rem;
+  justify-items: center;
+  min-height: calc(100vh - 140px);
+}
+
+.portfolio-item {
+  text-align: center;
+  padding: 1rem;
+  animation: fadeInUp 1s ease-out;
+}
+
+.image-link {
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+}
+
+.image-frame {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #fa2323, #6711b8);
+  padding: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.5), inset 0 0 7px rgba(255, 105, 180, 0.3);
+}
+
+.image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  clip-path: circle(50% at 50% 50%);
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: none;
+}
+
+.frame-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, transparent 60%, rgba(255, 105, 180, 0.2) 80%);
+  transition: opacity 0.3s ease;
+}
+
+.image-frame:hover {
+  transform: scale(1.05) rotate(2deg);
+  box-shadow: 0 0 18px rgba(255, 105, 180, 0.8), inset 0 0 10px rgba(255, 105, 180, 0.4);
+}
+
+.image-frame:hover .frame-overlay {
+  opacity: 0.7;
+  background: radial-gradient(circle, transparent 50%, rgba(255, 105, 180, 0.4) 70%);
+}
+
+.image-frame:hover::after {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  background: #ff69b4;
+  border-radius: 50%;
+  animation: sparkle 1s infinite;
+  transform: translateX(-50%);
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.2);
+  }
+}
+
+.username {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  animation: pulseText 2s infinite;
+  margin-top: 0.8rem;
+}
+
+.user-project-1 .username {
+  font-family: "Dancing Script", cursive;
+  color: #9177d1;
+}
+.user-project-2 .username {
+  font-family: "Lobster", cursive;
+  color: #00b7eb;
+}
+.user-project-3 .username {
+  font-family: "Pacifico", cursive;
+  color: #ff4500;
+}
+.user-project-4 .username {
+  font-family: "Montserrat", sans-serif;
+  color: #32cd32;
+}
+.user-project-5 .username {
+  font-family: "Roboto Slab", serif;
+  color: #e6e6fa;
+}
+.user-project-6 .username {
+  font-family: "Oswald", sans-serif;
+  color: #ffd700;
+}
+.user-project-7 .username {
+  font-family: "Raleway", sans-serif;
+  color: #ff1493;
+}
+.user-project-8 .username {
+  font-family: "Playfair Display", serif;
+  color: #20b2aa;
+}
+.user-project-9 .username {
+  font-family: "Source Serif Pro", serif;
+  color: #ffa500;
+}
+.user-project-10 .username {
+  font-family: "Quicksand", sans-serif;
+  color: #dc143c;
+}
+.user-project-11 .username {
+  font-family: "Caveat", cursive;
+  color: #7b68ee;
+}
+.user-project-12 .username {
+  font-family: "Amatic SC", cursive;
+  color: #ff6347;
+}
+.user-project-13 .username {
+  font-family: "Shadows Into Light", cursive;
+  color: #00ff7f;
+}
+.user-project-14 .username {
+  font-family: "Great Vibes", cursive;
+  color: #dda0dd;
+}
+.user-project-15 .username {
+  font-family: "Sacramento", cursive;
+  color: #f0e68c;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulseText {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.project-remake-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 140px);
+  padding: 2rem;
+}
+
+.project-content {
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+  animation: fadeInUp 1s ease-out;
+}
+
+/* Added flexbox container for side-by-side images */
+.project-images-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.project-image-wrapper {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  max-width: 320px;
+}
+
+.project-image {
+  max-width: 700px;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 3px solid rgba(25, 50, 120, 0.6);
+  box-shadow: 0 0 20px rgba(25, 50, 120, 0.4), 0 0 40px rgba(15, 30, 80, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.project-image:hover {
+  transform: scale(1.02);
+  border-color: rgba(25, 50, 120, 0.9);
+  box-shadow: 0 0 30px rgba(25, 50, 120, 0.6), 0 0 60px rgba(15, 30, 80, 0.4);
+}
+
+.remake-image {
+  filter: grayscale(100%);
+}
+
+.project-description {
+  background: linear-gradient(45deg, rgba(5, 5, 5, 0.7), rgba(10, 14, 33, 0.7));
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 2rem;
+}
+
+.project-description p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #e0e0e0;
+  text-align: justify;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.back-button {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(45deg, #fa2323, #6711b8);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+}
+
+.back-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255, 105, 180, 0.8);
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(45deg, rgba(5, 5, 5, 0.9), rgba(10, 14, 33, 0.9));
+  backdrop-filter: blur(5px);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  margin-top: auto;
+  position: relative;
+  left: 0;
+  right: 0;
+  box-sizing: border-box;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-content p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  header {
+    padding: 1.5rem;
+  }
+
+  .portfolio-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .portfolio-item {
+    width: 100%;
+  }
+
+  .image-frame {
+    width: 150px;
+    height: 150px;
+    padding: 4px;
+    box-shadow: 0 0 8px rgba(255, 105, 180, 0.5), inset 0 0 5px rgba(255, 105, 180, 0.3);
+  }
+
+  .image-frame:hover {
+    box-shadow: 0 0 12px rgba(255, 105, 180, 0.8), inset 0 0 8px rgba(255, 105, 180, 0.4);
+  }
+
+  .image-frame:hover::after {
+    top: -5px;
+    width: 5px;
+    height: 5px;
+  }
+
+  .username {
+    font-size: 1.1rem;
+    margin-top: 0.6rem;
+  }
+
+  .project-remake-container {
+    padding: 1.5rem;
+  }
+
+  .project-description {
+    padding: 1.5rem;
+  }
+
+  .project-description p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .back-button {
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+  }
+
+  .project-images-wrapper {
+    gap: 0.5rem;
+  }
+
+  .project-image-wrapper {
+    min-width: 0;
+    max-width: 50%;
+  }
+
+  .project-image {
+    max-width: 100%;
+    border-width: 2px;
+  }
+
+  .remake-image {
+    filter: grayscale(100%);
+  }
+
+  footer {
+    padding: 1.5rem;
+  }
+
+  .footer-content p {
+    font-size: 0.85rem;
+  }
+}
