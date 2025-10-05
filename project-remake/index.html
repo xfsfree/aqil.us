@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#000000">
-    <title>Project Remake - Aqil.us</title>
+    <title>Project Remake - Aqil Portfolio</title>
     <link rel="stylesheet" href="../style.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -17,7 +17,7 @@
             user-select: none;
         }
         
-        /* Prevent screenshot on iOS */
+
         @media screen and (-webkit-min-device-pixel-ratio: 0) {
             body::before {
                 content: '';
@@ -30,6 +30,15 @@
                 z-index: 9999;
             }
         }
+        
+        img {
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-drag: none;
+            pointer-events: auto;
+        }
     </style>
 </head>
 <body>
@@ -41,10 +50,10 @@
             <div class="project-content">
                 <div class="project-images-wrapper">
                     <div class="project-image-wrapper">
-                        <img src="resources/hitler.png" alt="Original Photo" class="project-image" draggable="false">
+                        <img src="resources/hitler.png" alt="Original Photo" class="project-image">
                     </div>
                     <div class="project-image-wrapper">
-                        <img src="resources/hitler_aqil.jpg" alt="Project Remake" class="project-image" draggable="false">
+                        <img src="resources/hitler_aqil.jpg" alt="Project Remake" class="project-image">
                     </div>
                 </div>
                 <div class="project-description">
@@ -67,23 +76,26 @@
             }
         });
 
+        let longPressTimer;
         document.addEventListener('touchstart', function(e) {
             if (e.target.tagName === 'IMG') {
-                e.preventDefault();
+                longPressTimer = setTimeout(function() {
+                    e.preventDefault();
+                }, 500);
             }
         }, { passive: false });
 
         document.addEventListener('touchend', function(e) {
             if (e.target.tagName === 'IMG') {
-                e.preventDefault();
+                clearTimeout(longPressTimer);
             }
-        }, { passive: false });
+        });
 
         document.addEventListener('touchmove', function(e) {
             if (e.target.tagName === 'IMG') {
-                e.preventDefault();
+                clearTimeout(longPressTimer);
             }
-        }, { passive: false });
+        });
     </script>
 </body>
 </html>
