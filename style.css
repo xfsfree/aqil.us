@@ -348,11 +348,12 @@ footer {
   }
 
   .portfolio-gallery {
-    grid-template-columns: repeat(2, minmax(120px, 1fr));
-    gap: 0.8rem;
-    padding: 1rem;
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1.5rem;
     width: 100%;
     box-sizing: border-box;
+    justify-content: space-between;
   }
 
   .portfolio-item {
@@ -362,9 +363,9 @@ footer {
 
   .image-frame {
     width: 100%;
-    max-width: 120px;
-    height: 120px;
-    padding: 3px;
+    max-width: 150px;
+    height: 150px;
+    padding: 4px;
     box-shadow: 0 0 8px rgba(255, 105, 180, 0.5), inset 0 0 5px rgba(255, 105, 180, 0.3);
   }
 
@@ -379,8 +380,8 @@ footer {
   }
 
   .username {
-    font-size: 1rem;
-    margin-top: 0.4rem;
+    font-size: 1.1rem;
+    margin-top: 0.6rem;
   }
 
   .project-remake-container {
