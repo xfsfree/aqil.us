@@ -12,6 +12,7 @@ body {
   animation: gradientShift 25s ease infinite;
   color: #fff;
   overflow-x: hidden;
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 @keyframes gradientShift {
@@ -240,7 +241,6 @@ h1 {
   animation: fadeInUp 1s ease-out;
 }
 
-/* Added flexbox container for side-by-side images */
 .project-images-wrapper {
   display: flex;
   justify-content: center;
