@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Remake - Aqil Portfolio</title>
+    <link rel="stylesheet" href="../style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Aqil Portfolio</h1>
+    </header>
+    <main>
+        <section class="project-remake-container">
+            <div class="project-content">
+                <div class="project-images-wrapper">
+                    <div class="project-image-wrapper">
+                        <img src="resources/hitler.png" alt="Original Photo" class="project-image" draggable="false">
+                    </div>
+                    <div class="project-image-wrapper">
+                        <img src="resources/hitler_aqil.jpg" alt="Project Remake" class="project-image" draggable="false">
+                    </div>
+                </div>
+                <div class="project-description">
+                    <p>This photograph shows Adolf Hitler during a Nazi rally in the 1930s in Germany. It was taken by a professional photographer working for Nazi propaganda, probably by Heinrich Hoffmann, who was Hitler's official photographer. The photo was shot with a black-and-white film camera, which was common at that time. It captures Hitler in an open car while giving the Nazi salute to the crowd. The purpose of taking such photos was to spread Nazi propaganda and to show Hitler as a strong leader to the German people and the world.</p>
+                </div>
+                <a href="../" class="back-button">Back to Portfolio</a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Aqil.us</p>
+        </div>
+    </footer>
+    <script>
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.addEventListener('touchstart', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchend', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
