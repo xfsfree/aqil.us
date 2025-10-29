@@ -91,36 +91,24 @@ function handleSwipe() {
   const deltaY = touchEndY - touchStartY
   const minSwipeDistance = 50
 
-  if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    if (deltaX < -minSwipeDistance) {
-      changeSlide(1)
-    } else if (deltaX > minSwipeDistance) {
-      changeSlide(-1)
+  const absX = Math.abs(deltaX)
+  const absY = Math.abs(deltaY)
+
+  
+  if (absX > absY * 2 && absX > minSwipeDistance) {
+   
+    if (deltaX < 0) {
+      changeSlide(1) 
+    } else {
+      changeSlide(-1) 
     }
   }
+
 }
 
 document.addEventListener("contextmenu", (e) => {
   e.preventDefault()
   return false
-})
-
-document.addEventListener("DOMContentLoaded", () => {
-  const imageLinks = document.querySelectorAll(".image-link")
-
-  imageLinks.forEach((link) => {
-    const href = link.getAttribute("data-href")
-
-
-    if (href && href !== "#") {
-      link.style.cursor = "pointer"
-
-      link.addEventListener("click", (e) => {
-        e.preventDefault()
-        window.location.href = href
-      })
-    }
-  })
 })
 
 updateSlideCounter()
