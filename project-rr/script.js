@@ -64,22 +64,48 @@ document.addEventListener("keydown", (e) => {
 
 let touchStartX = 0
 let touchEndX = 0
+let touchStartY = 0
+let touchEndY = 0
 
-document.addEventListener("touchstart", (e) => {
-  touchStartX = e.changedTouches[0].screenX
-})
+document.addEventListener(
+  "touchstart",
+  (e) => {
+    touchStartX = e.changedTouches[0].screenX
+    touchStartY = e.changedTouches[0].screenY
+  },
+  { passive: true },
+)
 
-document.addEventListener("touchend", (e) => {
-  touchEndX = e.changedTouches[0].screenX
-  handleSwipe()
-})
+document.addEventListener(
+  "touchend",
+  (e) => {
+    touchEndX = e.changedTouches[0].screenX
+    touchEndY = e.changedTouches[0].screenY
+    handleSwipe()
+  },
+  { passive: true },
+)
 
 function handleSwipe() {
-  if (touchEndX < touchStartX - 50) {
-    changeSlide(1)
-  }
-  if (touchEndX > touchStartX + 50) {
-    changeSlide(-1)
+  const deltaX = touchEndX - touchStartX
+  const deltaY = touchEndY - touchStartY
+  const minSwipeDistance = 50
+
+  
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    
+    if (deltaX < -minSwipeDistance) {
+      changeSlide(1) 
+    } else if (deltaX > minSwipeDistance) {
+      changeSlide(-1) 
+    }
+  } else {
+   
+    if (deltaY < -minSwipeDistance) {
+      changeSlide(1)
+    } else if (deltaY > minSwipeDistance) {
+      changeSlide(-1)
+    }
   }
 }
 
