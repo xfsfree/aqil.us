@@ -42,7 +42,6 @@ function changeSlide(direction) {
   }, 1200)
 }
 
-// Keyboard navigation
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight" || e.key === " ") {
     e.preventDefault()
@@ -51,9 +50,18 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault()
     changeSlide(-1)
   }
+
+  if (
+    e.keyCode === 123 ||
+    (e.ctrlKey && e.shiftKey && e.keyCode === 73) ||
+    (e.ctrlKey && e.shiftKey && e.keyCode === 74) ||
+    (e.ctrlKey && e.keyCode === 85)
+  ) {
+    e.preventDefault()
+    return false
+  }
 })
 
-// Touch swipe support
 let touchStartX = 0
 let touchEndX = 0
 
@@ -75,6 +83,10 @@ function handleSwipe() {
   }
 }
 
-// Initialize
+document.addEventListener("contextmenu", (e) => {
+  e.preventDefault()
+  return false
+})
+
 updateSlideCounter()
 updateProgress()
