@@ -14,14 +14,23 @@ body {
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-   user-select: none;
+  user-select: none;
+  /* Prevent pull-to-refresh and overscroll on mobile */
+  overscroll-behavior: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 .presentation-container {
   width: 100vw;
   height: 100vh;
+  /* Use dvh for better mobile support */
+  height: 100dvh;
   position: relative;
   overflow: hidden;
+  /* Prevent any scrolling or black spaces */
+  touch-action: pan-x pan-y;
 }
 
 .slide {
@@ -49,72 +58,86 @@ body {
 }
 
 #slide1 {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(10, 10, 30, 0.85) 100%), url("https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(10, 10, 30, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1920&q=90") center / cover;
   animation: backgroundPan 25s ease-in-out infinite alternate, backgroundPulse 8s ease-in-out infinite;
 }
 
 #slide2 {
-  background: linear-gradient(135deg, rgba(20, 10, 0, 0.75) 0%, rgba(40, 20, 10, 0.85) 100%), url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(20, 10, 0, 0.75) 0%, rgba(40, 20, 10, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
   animation: backgroundZoom 20s ease-in-out infinite alternate, backgroundRotate 30s linear infinite;
 }
 
 #slide3 {
-  background: linear-gradient(135deg, rgba(0, 20, 30, 0.75) 0%, rgba(10, 30, 50, 0.85) 100%), url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(0, 20, 30, 0.75) 0%, rgba(10, 30, 50, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=90") center / cover;
   animation: backgroundPan 22s ease-in-out infinite alternate, backgroundPulse 10s ease-in-out infinite;
 }
 
 #slide4 {
-  background: linear-gradient(135deg, rgba(30, 15, 0, 0.75) 0%, rgba(50, 25, 10, 0.85) 100%), url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(30, 15, 0, 0.75) 0%, rgba(50, 25, 10, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
   animation: backgroundZoom 18s ease-in-out infinite alternate, backgroundShift 25s ease-in-out infinite alternate;
 }
 
 #slide5 {
-  background: linear-gradient(135deg, rgba(10, 10, 10, 0.75) 0%, rgba(30, 30, 30, 0.85) 100%), url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(10, 10, 10, 0.75) 0%, rgba(30, 30, 30, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=90") center / cover;
   animation: backgroundPan 24s ease-in-out infinite alternate, backgroundPulse 12s ease-in-out infinite;
 }
 
 #slide6 {
-  background: linear-gradient(135deg, rgba(0, 15, 25, 0.75) 0%, rgba(10, 25, 40, 0.85) 100%), url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(0, 15, 25, 0.75) 0%, rgba(10, 25, 40, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
   animation: backgroundZoom 21s ease-in-out infinite alternate, backgroundRotate 35s linear infinite;
 }
 
 #slide7 {
-  background: linear-gradient(135deg, rgba(15, 0, 25, 0.75) 0%, rgba(30, 10, 40, 0.85) 100%), url("https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(15, 0, 25, 0.75) 0%, rgba(30, 10, 40, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?w=1920&q=90") center / cover;
   animation: backgroundPan 23s ease-in-out infinite alternate, backgroundShift 28s ease-in-out infinite alternate;
 }
 
 #slide8 {
-  background: linear-gradient(135deg, rgba(0, 25, 15, 0.75) 0%, rgba(10, 40, 30, 0.85) 100%), url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(0, 25, 15, 0.75) 0%, rgba(10, 40, 30, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
   animation: backgroundZoom 19s ease-in-out infinite alternate, backgroundPulse 9s ease-in-out infinite;
 }
 
 #slide9 {
-  background: linear-gradient(135deg, rgba(5, 5, 5, 0.8) 0%, rgba(15, 15, 15, 0.9) 100%), url("https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(5, 5, 5, 0.8) 0%, rgba(15, 15, 15, 0.9) 100%),
+    url("https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=90") center / cover;
   animation: backgroundPan 26s ease-in-out infinite alternate, backgroundRotate 40s linear infinite;
 }
 
 #slide10 {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(10, 10, 10, 0.95) 100%), url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(10, 10, 10, 0.95) 100%),
+    url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
   animation: backgroundZoom 20s ease-in-out infinite alternate, backgroundShift 30s ease-in-out infinite alternate;
 }
 
 #slide11 {
-  background: linear-gradient(135deg, rgba(25, 10, 0, 0.75) 0%, rgba(45, 20, 10, 0.85) 100%), url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(25, 10, 0, 0.75) 0%, rgba(45, 20, 10, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
   animation: backgroundPan 24s ease-in-out infinite alternate, backgroundPulse 11s ease-in-out infinite;
 }
 
 #slide12 {
-  background: linear-gradient(135deg, rgba(0, 30, 20, 0.75) 0%, rgba(10, 50, 35, 0.85) 100%), url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(0, 30, 20, 0.75) 0%, rgba(10, 50, 35, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=90") center / cover;
   animation: backgroundZoom 22s ease-in-out infinite alternate, backgroundRotate 38s linear infinite;
 }
 
 #slide13 {
-  background: linear-gradient(135deg, rgba(20, 0, 10, 0.75) 0%, rgba(40, 10, 20, 0.85) 100%), url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(20, 0, 10, 0.75) 0%, rgba(40, 10, 20, 0.85) 100%),
+    url("https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1920&q=90") center / cover;
   animation: backgroundPan 25s ease-in-out infinite alternate, backgroundShift 32s ease-in-out infinite alternate;
 }
 
 #slide14 {
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(15, 15, 15, 0.95) 100%), url("https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=90") center / cover;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(15, 15, 15, 0.95) 100%),
+    url("https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=90") center / cover;
   animation: backgroundZoom 20s ease-in-out infinite alternate, backgroundPulse 10s ease-in-out infinite;
 }
 
@@ -137,7 +160,8 @@ body {
 }
 
 @keyframes backgroundPulse {
-  0%, 100% {
+  0%,
+  100% {
     filter: brightness(1) contrast(1);
   }
   50% {
@@ -182,7 +206,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.15) 0%, transparent 60%), radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
+  background: radial-gradient(circle at 30% 40%, rgba(0, 212, 255, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
   animation: overlayPulse 8s ease-in-out infinite, overlayMove 15s ease-in-out infinite alternate;
   pointer-events: none;
   z-index: 1;
@@ -201,7 +226,8 @@ body {
 }
 
 @keyframes overlayPulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
   }
   50% {
@@ -248,7 +274,8 @@ body {
 }
 
 @keyframes luxuryShimmer {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
     filter: brightness(1);
   }
@@ -270,7 +297,8 @@ body {
 }
 
 @keyframes subtitleFloat {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
@@ -295,7 +323,8 @@ body {
 }
 
 @keyframes infoGlow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   50% {
@@ -523,7 +552,8 @@ body {
 }
 
 @keyframes imageGlow {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(0.9);
     opacity: 0.5;
   }
@@ -666,7 +696,8 @@ body {
 }
 
 @keyframes progressFlow {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -714,144 +745,128 @@ body {
 }
 
 .back-home:hover {
-  background: rgba(0, 212, 255, 0.2);
-  transform: translateX(-8px) scale(1.08);
-  box-shadow: 0 8px 30px rgba(0, 212, 255, 0.5);
-  opacity: 1;
+  transform: scale(1.1) translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 212, 255, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-@keyframes imageReveal {
-  0% {
-    opacity: 0;
-    transform: scale(0.85) translateY(50px) rotateX(-15deg);
-    filter: blur(15px);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1) translateY(0) rotateX(0);
-    filter: blur(0);
-  }
+.back-home:active {
+  transform: scale(1.05);
 }
 
-@media (max-width: 1024px) {
-  .main-title {
-    font-size: 5rem;
-  }
-  .slide-title {
-    font-size: 3rem;
-  }
-  .content-box {
-    flex-direction: column;
-    padding: 2rem;
-  }
-  .text-content {
-    font-size: 1.2rem;
-  }
-  .image-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .image-grid .detail-img {
-    height: 200px;
-  }
-}
-
+/* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .main-title {
     font-size: 3.5rem;
     letter-spacing: 0.2rem;
   }
+
   .subtitle {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.15rem;
   }
-  .student-info {
-    font-size: 1rem;
-    padding: 1.5rem;
-  }
+
   .slide-title {
     font-size: 2.5rem;
+    letter-spacing: 0.1rem;
   }
+
+  .content-box {
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
   .text-content {
     font-size: 1rem;
     line-height: 1.7;
+    max-height: 50vh;
+    overflow-y: auto;
   }
-  .content-box {
-    padding: 1.5rem;
-    gap: 2rem;
+
+  .image-grid {
+    width: 100%;
   }
+
+  .image-container {
+    width: 100%;
+  }
+
+  .slide-image {
+    max-width: 100%;
+  }
+
   .navigation {
-    bottom: 2rem;
+    bottom: 1.5rem;
     padding: 0.8rem 1.5rem;
     gap: 1.5rem;
   }
+
   .nav-btn {
     width: 45px;
     height: 45px;
     font-size: 1.5rem;
   }
+
   .slide-counter {
     font-size: 1.2rem;
+    min-width: 60px;
   }
+
   .back-home {
     top: 1rem;
     left: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.75rem;
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
   }
-  .image-grid .detail-img {
-    height: 180px;
+
+  .student-info {
+    font-size: 1rem;
+    padding: 1.5rem;
+  }
+
+  .video-container {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
   .main-title {
     font-size: 2.5rem;
-  }
-  .subtitle {
-    font-size: 1.2rem;
     letter-spacing: 0.1rem;
   }
+
+  .subtitle {
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
+  }
+
   .slide-title {
     font-size: 2rem;
   }
+
   .text-content {
     font-size: 0.95rem;
-    line-height: 1.6;
+    max-height: 45vh;
   }
-  .text-content p {
-    margin-bottom: 1rem;
-  }
-  .slide-image {
-    max-width: 100%;
-  }
-  .image-grid .detail-img {
-    height: 150px;
-  }
-}
 
-.slide-image, img {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-  -moz-user-drag: none;
-  -ms-user-drag: none;
-  user-drag: none;
-  -webkit-touch-callout: none;
-  pointer-events: none;
-  -khtml-user-drag: none;
-}
+  .content-box {
+    padding: 1rem;
+  }
 
-.slide-image:hover {
-  pointer-events: auto;
-}
+  .navigation {
+    bottom: 1rem;
+    padding: 0.6rem 1rem;
+    gap: 1rem;
+  }
 
-img {
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-  user-drag: none;
-  pointer-events: auto;
+  .nav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+
+  .slide-counter {
+    font-size: 1rem;
+    min-width: 50px;
+  }
 }
