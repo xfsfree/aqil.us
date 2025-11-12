@@ -1,5 +1,5 @@
 const BACKEND_API_URL = "https://x6aa.com/api/openai"
-const PROXY_SECRET_TOKEN = "your-secret-random-token-here" // Match your backend token
+const PROXY_SECRET_TOKEN = "32V91£n>]WFLu4?"
 
 let isDark = true
 const messages = []
