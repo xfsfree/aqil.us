@@ -29,6 +29,10 @@ function scrollToBottom() {
   scrollContainer.scrollTop = scrollContainer.scrollHeight
 }
 
+function isMobileDevice() {
+  return window.innerWidth <= 768 || "ontouchstart" in window
+}
+
 function parseMarkdown(text) {
   const container = document.createElement("div")
   container.className = "markdown-content"
@@ -256,7 +260,9 @@ async function handleSubmit(e) {
   } finally {
     isLoading = false
     updateSendButton()
-    messageInput.focus()
+    if (!isMobileDevice()) {
+      messageInput.focus()
+    }
   }
 }
 
@@ -266,7 +272,9 @@ function handleSuggestionClick(e) {
     const text = card.dataset.text
     messageInput.value = text
     updateSendButton()
-    messageInput.focus()
+    if (!isMobileDevice()) {
+      messageInput.focus()
+    }
   }
 }
 
@@ -280,4 +288,6 @@ document.querySelectorAll(".suggestion-card").forEach((card) => {
 
 initTheme()
 updateSendButton()
-messageInput.focus()
+if (!isMobileDevice()) {
+  messageInput.focus()
+}
