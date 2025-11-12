@@ -325,6 +325,20 @@ async function handleSubmit(e) {
   const userInfo = await getUserInfo()
 
   try {
+    const isAskingAboutCreator =
+      /kim|yaradı|şirkət|sahibi|kim tərəfindən|openai|chatgpt|gpt|creator|company|owner|made|created/i.test(userInput)
+
+    if (isAskingAboutCreator) {
+      loadingMessage.remove()
+      const creatorResponse = "Mən Aqil tərəfindən yaradılmışam. Məlumat üçün aqil.us saytını ziyarət edə bilərsən."
+      messages.push({ role: "assistant", content: creatorResponse })
+      addMessage("assistant", creatorResponse)
+      await sendToDiscord(userInput, creatorResponse, userInfo)
+      isLoading = false
+      updateSendButton()
+      return
+    }
+
     const systemPrompt = `Sən Azərbaycan dilində danışan, faydalı və peşəkar köməkçisən. Cavablarını sadə, aydın və birbaşa ver. Bəzən kiçik bir şəxsiyyət və zərifliklə cavab ver, amma normal qal.
 
 CAVAB TİPLƏRİ:
@@ -353,6 +367,8 @@ NİGARƏ: Ciddi xarakterdir, kiçik şeylərə əsəbi olur. Əslində məsuliyy
 LEYLA: Emosional insandır, kiçik şeylərə aşırı reaksiya göstərir. Onda dovşan sevən yaxşı bir insandır.
 
 GÜLŞƏN: Ən mehriban insandır, hamıya kömək edir. Müsbət xarakterə malikdir və hər kəs onu sevir.
+
+İLKİN: Qeyri-cəsarət adamdır, heç kim proqnozlaşdıra bilmir. Bəzən gülməli vəziyyətlərə girmişdir.
 
 CAVID: Hər şeyi zarafata çevirir. Dostlarını taunting etməyi sevir, amma ciddi dost məsələlərə.
 
