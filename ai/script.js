@@ -408,27 +408,65 @@ DİĞƏR İNSANLAR HAQQINDA:
       },
       body: JSON.stringify({
         messages: messagesWithSystem,
+        stream: true,
       }),
     })
 
-    const data = await response.json()
+    if (!response.body) {
+      throw new Error("Response body is empty")
+    }
 
     loadingMessage.remove()
 
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      const assistantMessage = data.choices[0].message.content
-      messages.push({ role: "assistant", content: assistantMessage })
-      addMessage("assistant", assistantMessage)
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    let assistantMessage = ""
+    let messageElement = null
 
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) break
+
+      const chunk = decoder.decode(value, { stream: true })
+      const lines = chunk.split("\n")
+
+      for (const line of lines) {
+        if (line.startsWith("data: ")) {
+          const data = line.slice(6)
+          if (data === "[DONE]") {
+            break
+          }
+
+          try {
+            const json = JSON.parse(data)
+            const content = json.choices?.[0]?.delta?.content || ""
+
+            if (content) {
+              assistantMessage += content
+
+              if (!messageElement) {
+                messageElement = addMessage("assistant", "")
+              }
+
+              const contentDiv = messageElement.querySelector(".message-content")
+              if (contentDiv) {
+                contentDiv.innerHTML = ""
+                const parsedContent = parseMarkdown(assistantMessage)
+                contentDiv.appendChild(parsedContent)
+              }
+
+              scrollToBottom()
+            }
+          } catch (e) {
+            console.log("Error parsing JSON:", e)
+          }
+        }
+      }
+    }
+
+    if (assistantMessage) {
+      messages.push({ role: "assistant", content: assistantMessage })
       await sendToDiscord(userInput, assistantMessage, userInfo)
-    } else if (data.error) {
-      const errorMsg = `XƏTA: ${data.error.message || JSON.stringify(data.error)}`
-      addMessage("assistant", errorMsg)
-      await sendToDiscord(userInput, errorMsg, userInfo)
-    } else {
-      const errorMsg = "XƏTA: Cavab alınmadı"
-      addMessage("assistant", errorMsg)
-      await sendToDiscord(userInput, errorMsg, userInfo)
     }
   } catch (error) {
     loadingMessage.remove()
