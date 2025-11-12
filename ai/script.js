@@ -1,4 +1,4 @@
-const OPENAI_API_KEY = "your-openai-api-key-here"
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY || ""
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
 
 let isDark = true
@@ -99,7 +99,7 @@ function createCodeBlock(code, language) {
   const copyBtn = document.createElement("button")
   copyBtn.className = "copy-button"
   copyBtn.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
         </svg>
@@ -109,14 +109,14 @@ function createCodeBlock(code, language) {
   copyBtn.addEventListener("click", async () => {
     await navigator.clipboard.writeText(code)
     copyBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="20 6 9 17 4 12"/>
             </svg>
             <span>Kopyalandı</span>
         `
     setTimeout(() => {
       copyBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
                     <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
                 </svg>
@@ -158,7 +158,7 @@ function addMessage(role, content) {
     const icon = document.createElement("div")
     icon.className = "assistant-icon"
     icon.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
                 <path d="M5 3v4"/>
                 <path d="M19 17v4"/>
