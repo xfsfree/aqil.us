@@ -1,10 +1,10 @@
-// State management
+const VERCEL_API_URL = "https://openai-proxy-beta-five.vercel.app/api/chat"
+
 let isDark = true
 const messages = []
 const debugLogs = []
 let isLoading = false
 
-// DOM elements
 const themeToggle = document.getElementById("themeToggle")
 const chatForm = document.getElementById("chatForm")
 const messageInput = document.getElementById("messageInput")
@@ -15,33 +15,27 @@ const debugContent = document.getElementById("debugContent")
 const debugEmpty = document.getElementById("debugEmpty")
 const scrollContainer = document.getElementById("scrollContainer")
 
-// Initialize theme
 function initTheme() {
   document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light")
 }
 
-// Toggle theme
 function toggleTheme() {
   isDark = !isDark
   document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light")
 }
 
-// Enable/disable send button based on input
 function updateSendButton() {
   sendButton.disabled = !messageInput.value.trim() || isLoading
 }
 
-// Scroll to bottom of messages
 function scrollToBottom() {
   scrollContainer.scrollTop = scrollContainer.scrollHeight
 }
 
-// Scroll debug logs to bottom
 function scrollDebugToBottom() {
   debugContent.scrollTop = debugContent.scrollHeight
 }
 
-// Add debug log
 function addDebugLog(type, data) {
   const timestamp = new Date().toLocaleTimeString("az-AZ")
 
@@ -87,11 +81,9 @@ function addDebugLog(type, data) {
   })
 }
 
-// Parse markdown to HTML (simplified)
 function parseMarkdown(text) {
   const container = document.createElement("div")
 
-  // Simple paragraph parsing
   const lines = text.split("\n")
   lines.forEach((line) => {
     if (line.trim() === "") {
@@ -102,10 +94,7 @@ function parseMarkdown(text) {
     const p = document.createElement("p")
     let html = line
 
-    // Parse inline code
     html = html.replace(/`([^`]+)`/g, "<code>$1</code>")
-
-    // Parse bold
     html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
 
     p.innerHTML = html
@@ -115,7 +104,6 @@ function parseMarkdown(text) {
   return container
 }
 
-// Add message to UI
 function addMessage(role, content, isError = false) {
   if (emptyState && emptyState.style.display !== "none") {
     emptyState.style.display = "none"
@@ -153,32 +141,35 @@ function addMessage(role, content, isError = false) {
   return messageDiv
 }
 
-// Handle form submission
 async function handleSubmit(e) {
   e.preventDefault()
 
   const userInput = messageInput.value.trim()
   if (!userInput || isLoading) return
 
-  // Add user message
   messages.push({ role: "user", content: userInput })
   addMessage("user", userInput)
 
-  // Clear input
   messageInput.value = ""
   updateSendButton()
 
-  // Show loading indicator
   isLoading = true
   const loadingMessage = addMessage("assistant", "loading")
 
-  // Log request
-  const requestPayload = { messages }
+  const messagesWithSystem = [
+    {
+      role: "system",
+      content:
+        "Sən Azərbaycan dilində danışan köməkçisən. Bütün cavablarını yalnız Azərbaycan dilində ver. Heç vaxt ingilis, türk və ya başqa dildə cavab vermə. Həmişə Azərbaycan dilində cavab ver.",
+    },
+    ...messages,
+  ]
+
+  const requestPayload = { messages: messagesWithSystem }
   addDebugLog("request", requestPayload)
 
   try {
-    // Make API request
-    const response = await fetch("/api/chat", {
+    const response = await fetch(VERCEL_API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestPayload),
@@ -186,33 +177,33 @@ async function handleSubmit(e) {
 
     const data = await response.json()
 
-    // Log response
     addDebugLog("response", {
       status: response.status,
       statusText: response.statusText,
       data: data,
     })
 
-    // Remove loading indicator
     loadingMessage.remove()
 
-    if (data.error) {
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      const assistantMessage = data.choices[0].message.content
+      messages.push({ role: "assistant", content: assistantMessage })
+      addMessage("assistant", assistantMessage)
+    } else if (data.error) {
       addDebugLog("error", {
-        message: data.error,
+        message: data.error.message || JSON.stringify(data.error),
         fullResponse: data,
       })
-      addMessage("assistant", `XƏTA: ${data.error}`, true)
-    } else if (data.message) {
-      messages.push({ role: "assistant", content: data.message })
-      addMessage("assistant", data.message)
+      addMessage("assistant", `XƏTA: ${data.error.message || JSON.stringify(data.error)}`, true)
+    } else {
+      addMessage("assistant", "XƏTA: Cavab alınmadı", true)
     }
   } catch (error) {
-    // Remove loading indicator
     loadingMessage.remove()
 
     const errorData = {
       message: error.message,
-      error: error,
+      error: error.toString(),
     }
 
     addDebugLog("error", errorData)
@@ -224,12 +215,10 @@ async function handleSubmit(e) {
   }
 }
 
-// Event listeners
 themeToggle.addEventListener("click", toggleTheme)
 chatForm.addEventListener("submit", handleSubmit)
 messageInput.addEventListener("input", updateSendButton)
 
-// Initialize
 initTheme()
 updateSendButton()
 messageInput.focus()
