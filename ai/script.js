@@ -1,4 +1,4 @@
-const VERCEL_API_URL = "https://x6aa.com/api/openai"
+const VERCEL_API_URL = "https://openai-proxy-beta-five.vercel.app/"
 
 let isDark = true
 const messages = []
