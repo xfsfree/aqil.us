@@ -1,5 +1,5 @@
-const BACKEND_API_URL = "https://x6aa.com/api/openai"
-const PROXY_SECRET_TOKEN = "32V91£n>]WFLu4?"
+const OPENAI_API_KEY = "your-openai-api-key-here"
+const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
 
 let isDark = true
 const messages = []
@@ -228,14 +228,17 @@ async function handleSubmit(e) {
       ...messages,
     ]
 
-    const response = await fetch(BACKEND_API_URL, {
+    const response = await fetch(OPENAI_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-token": PROXY_SECRET_TOKEN, // Send secret token for authentication
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
+        model: "gpt-4o-mini",
         messages: messagesWithSystem,
+        temperature: 0.7,
+        max_tokens: 1000,
       }),
     })
 
