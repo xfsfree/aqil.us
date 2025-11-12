@@ -55,14 +55,16 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow: hidden;
-  height: 100vh;
+  /* Use dynamic viewport height for mobile browsers */
+  height: 100dvh;
   transition: background-color 0.5s, color 0.3s;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* Use dynamic viewport height for mobile browsers */
+  height: 100dvh;
   position: relative;
   overflow: hidden;
 }
@@ -244,11 +246,18 @@ body {
 
 .main-content {
   flex: 1;
-  padding: 1rem 1.5rem;
+  /* Reduce padding on mobile to prevent overflow */
+  padding: 0.5rem 1rem;
   position: relative;
   z-index: 10;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    padding: 1rem 1.5rem;
+  }
 }
 
 .messages-container {
@@ -522,7 +531,8 @@ body {
 .input-area {
   position: relative;
   backdrop-filter: blur(12px);
-  padding: 1rem; /* Reduced padding on mobile from 1.5rem to 1rem */
+  /* Further reduce padding on mobile to prevent overflow */
+  padding: 0.75rem;
   z-index: 10;
   border-top: 1px solid var(--border-color);
 }
