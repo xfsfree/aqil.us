@@ -453,12 +453,14 @@ DİĞƏR İNSANLAR HAQQINDA:
         for (const line of lines) {
           if (line.startsWith("data: ")) {
             const data = line.slice(6).trim()
+            console.log("[v0] Stream data:", data)
             if (data === "[DONE]") {
               break
             }
 
             try {
               const json = JSON.parse(data)
+              console.log("[v0] Parsed JSON:", json)
               const content = json.choices?.[0]?.delta?.content || ""
 
               if (content) {
@@ -474,7 +476,7 @@ DİĞƏR İNSANLAR HAQQINDA:
                 scrollToBottom()
               }
             } catch (e) {
-              // Silently skip malformed JSON lines
+              console.log("[v0] JSON parse error:", e.message, "Line:", line)
             }
           }
         }
@@ -482,6 +484,8 @@ DİĞƏR İNSANLAR HAQQINDA:
     } finally {
       reader.cancel()
     }
+
+    console.log("[v0] Final assistant message:", assistantMessage)
 
     if (assistantMessage) {
       messages.push({ role: "assistant", content: assistantMessage })
