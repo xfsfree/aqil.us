@@ -164,7 +164,7 @@ function addMessage(role, content) {
     icon.className = "assistant-icon"
     icon.innerHTML = `
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"/>
                 <path d="M5 3v4"/>
                 <path d="M19 17v4"/>
                 <path d="M3 5h4"/>
@@ -341,8 +341,23 @@ async function handleSubmit(e) {
       await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
 
       loadingMessage.remove()
+
+      const messageElement = addMessage("assistant", "")
+      let displayedText = ""
+
+      for (let i = 0; i < randomResponse.length; i++) {
+        displayedText += randomResponse[i]
+        const contentDiv = messageElement.querySelector(".message-content")
+        if (contentDiv) {
+          contentDiv.innerHTML = ""
+          const parsedContent = parseMarkdown(displayedText)
+          contentDiv.appendChild(parsedContent)
+        }
+        await new Promise((resolve) => setTimeout(resolve, 20))
+        scrollToBottom()
+      }
+
       messages.push({ role: "assistant", content: randomResponse })
-      addMessage("assistant", randomResponse)
       await sendToDiscord(userInput, randomResponse, userInfo)
       isLoading = false
       updateSendButton()
@@ -412,56 +427,60 @@ DİĞƏR İNSANLAR HAQQINDA:
       }),
     })
 
+    if (!response.ok) {
+      throw new Error("API request failed")
+    }
+
     if (!response.body) {
       throw new Error("Response body is empty")
     }
 
     loadingMessage.remove()
 
+    const messageElement = addMessage("assistant", "")
     const reader = response.body.getReader()
     const decoder = new TextDecoder()
     let assistantMessage = ""
-    let messageElement = null
 
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
 
-      const chunk = decoder.decode(value, { stream: true })
-      const lines = chunk.split("\n")
+        const chunk = decoder.decode(value, { stream: true })
+        const lines = chunk.split("\n")
 
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          const data = line.slice(6)
-          if (data === "[DONE]") {
-            break
-          }
-
-          try {
-            const json = JSON.parse(data)
-            const content = json.choices?.[0]?.delta?.content || ""
-
-            if (content) {
-              assistantMessage += content
-
-              if (!messageElement) {
-                messageElement = addMessage("assistant", "")
-              }
-
-              const contentDiv = messageElement.querySelector(".message-content")
-              if (contentDiv) {
-                contentDiv.innerHTML = ""
-                const parsedContent = parseMarkdown(assistantMessage)
-                contentDiv.appendChild(parsedContent)
-              }
-
-              scrollToBottom()
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = line.slice(6).trim()
+            if (data === "[DONE]") {
+              break
             }
-          } catch (e) {
-            console.log("Error parsing JSON:", e)
+
+            try {
+              const json = JSON.parse(data)
+              const content = json.choices?.[0]?.delta?.content || ""
+
+              if (content) {
+                assistantMessage += content
+
+                const contentDiv = messageElement.querySelector(".message-content")
+                if (contentDiv) {
+                  contentDiv.innerHTML = ""
+                  const parsedContent = parseMarkdown(assistantMessage)
+                  contentDiv.appendChild(parsedContent)
+                }
+
+                scrollToBottom()
+              }
+            } catch (e) {
+              // Silently skip malformed JSON lines
+            }
           }
         }
       }
+    } finally {
+      reader.cancel()
     }
 
     if (assistantMessage) {
@@ -469,6 +488,7 @@ DİĞƏR İNSANLAR HAQQINDA:
       await sendToDiscord(userInput, assistantMessage, userInfo)
     }
   } catch (error) {
+    console.log("[v0] Error:", error.message)
     loadingMessage.remove()
     const errorMsg = `XƏTA: ${error.message}`
     addMessage("assistant", errorMsg)
