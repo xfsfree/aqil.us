@@ -354,7 +354,6 @@ LEYLA: Emosional insandır, kiçik şeylərə aşırı reaksiya göstərir. Onda
 
 GÜLŞƏN: Ən mehriban insandır, hamıya kömək edir. Müsbət xarakterə malikdir və hər kəs onu sevir.
 
-İLKİN: Qeyri-cəsarət adamdır, heç kim proqnozlaşdıra bilmir. Bəzən gülməli vəziyyətlərə girmişdir.
 
 CAVID: Hər şeyi zarafata çevirir. Dostlarını taunting etməyi sevir, amma ciddi dost məsələlərə.
 
