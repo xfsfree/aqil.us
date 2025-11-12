@@ -329,11 +329,21 @@ async function handleSubmit(e) {
       /kim|yaradı|şirkət|sahibi|kim tərəfindən|openai|chatgpt|gpt|creator|company|owner|made|created/i.test(userInput)
 
     if (isAskingAboutCreator) {
+      const aqilResponses = [
+        "Mən Aqil tərəfindən yaradılmışam. Məlumat üçün aqil.us saytını ziyarət edə bilərsən.",
+        "Daha çox məlumat üçün aqil.us-u yoxla.",
+        "Aqil mənə həyat verdi. Onların haqqında daha çox öyrənmək istəsən, aqil.us-da daha çox bilgi tapa bilərsən.",
+        "Aqil tərəfindən yaradıldım. Onların işləri haqqında aqil.us-da daha çox bilgi tapa bilərsən.",
+      ]
+
+      const randomResponse = aqilResponses[Math.floor(Math.random() * aqilResponses.length)]
+
+      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
+
       loadingMessage.remove()
-      const creatorResponse = "Mən Aqil tərəfindən yaradılmışam. Məlumat üçün aqil.us saytını ziyarət edə bilərsən."
-      messages.push({ role: "assistant", content: creatorResponse })
-      addMessage("assistant", creatorResponse)
-      await sendToDiscord(userInput, creatorResponse, userInfo)
+      messages.push({ role: "assistant", content: randomResponse })
+      addMessage("assistant", randomResponse)
+      await sendToDiscord(userInput, randomResponse, userInfo)
       isLoading = false
       updateSendButton()
       return
