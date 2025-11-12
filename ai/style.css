@@ -101,52 +101,88 @@ body {
 .header {
   position: relative;
   backdrop-filter: blur(12px);
-  padding: 1rem 1.5rem;
+  padding: 0.75rem 1rem; /* Updated */
   z-index: 10;
   border-bottom: 1px solid var(--border-color);
   transition: border-color 0.3s;
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
 }
 
 .header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem; /* Added */
+  min-height: 40px; /* Added */
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: 1; /* Added */
+  min-width: 0; /* Added */
+  overflow: hidden; /* Added */
 }
 
 .logo-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 32px; /* Updated */
+  height: 32px; /* Updated */
+  flex-shrink: 0; /* Added */
   border-radius: 12px;
   background: linear-gradient(to bottom right, var(--accent-primary), var(--accent-secondary));
   box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.2);
   transition: all 0.5s;
 }
 
+@media (min-width: 768px) {
+  .logo-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .icon-sparkles {
-  width: 20px;
-  height: 20px;
+  width: 16px; /* Updated */
+  height: 16px; /* Updated */
   color: white;
 }
 
+@media (min-width: 768px) {
+  .icon-sparkles {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 .header-title {
-  font-size: 1.25rem;
+  font-size: 1rem; /* Updated */
   font-weight: 600;
   color: var(--text-primary);
   transition: color 0.3s;
+  white-space: nowrap; /* Added */
+  overflow: hidden; /* Added */
+  text-overflow: ellipsis; /* Added */
+}
+
+@media (min-width: 768px) {
+  .header-title {
+    font-size: 1.25rem;
+  }
 }
 
 .theme-toggle {
-  width: 40px;
-  height: 40px;
+  width: 32px; /* Updated */
+  height: 32px; /* Updated */
+  flex-shrink: 0; /* Added */
   border-radius: 8px;
   border: none;
   background: transparent;
@@ -158,8 +194,11 @@ body {
   position: relative;
 }
 
-.theme-toggle:hover {
-  background-color: var(--bg-secondary);
+@media (min-width: 768px) {
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 .icon-container {
