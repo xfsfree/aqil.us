@@ -324,7 +324,7 @@ async function handleSubmit(e) {
   const userInfo = await getUserInfo()
 
   try {
-    const isAskingAboutAqil = /[aA][qQ][iİI][lL]\s+.*(necə|nəcə|nece|nəce|nədir|nedir|kimdir|kim|oğlan|oglan|uşaq|usak|biri|qədər|qeder|qalır|qalir|haqqında|haqqinda|nə|ne|kimi)/i.test(
+    const isAskingAboutAqil = /[aA][qQ][iİI][lL]\s+.*(necə|nəcə|nece|nəce|nədir|nedir|kimdir|kim|oğlan|oglan|uşaq|usaq|usag|uşağ|usak|biri|qədər|qeder|qalır|qalir|haqqında|haqqinda|nə|ne|kimi)/i.test(
       userInput,
     )
 
