@@ -1,5 +1,5 @@
 const VERCEL_API_URL = "https://openai-proxy-beta-five.vercel.app/api/chat"
-const CUSTOM_API_URL = "https://your-api-domain.com/api/wr"
+const CUSTOM_API_URL = "https://openai-proxy-beta-five.vercel.app/api/wr"
 
 let isDark = true
 const messages = []
@@ -271,7 +271,8 @@ async function handleSubmit(e) {
 
   try {
     const isAskingAboutAqil =
-      /aqil\s*(necə|nədir|kimidir|kim|oğlan|uşaq|biri|qədər|qalır|nədir|haqqında|kimdir|kimi)/i.test(userInput)
+      /aqil\s+/i.test(userInput) &&
+      /(necə|nədir|kimidir|kim|oğlan|uşaq|biri|qədər|qalır|haqqında|kimdir|kimi|nəsi|heç|haya)/i.test(userInput)
 
     if (isAskingAboutAqil) {
       const aqilPraiseResponses = [
