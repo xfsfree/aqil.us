@@ -374,9 +374,10 @@ async function handleSubmit(e) {
 
     if (isAskingAboutAqil) {
       const aqilPraiseResponses = [
-        "Aqil çox normal bir oğlandır yaxşı. Bərk gedən oğlandır, əsdən ələng edən deyil. İşini ordulu aparır, insanları anlamaq bacarığı var. Onu sevərəm valla.",
-        "Qaqa Aqil haqqında nə desəm... çox mübariz oğlandır. Heç kim ona demir amma, həyatda gedən bir insan. Xoş gədəni var, ağır ağır işini görür. Dost olmasını bacaran birdir.",
-        "Qardaşım Aqil nədir yaxşı... bərk gedən oğlandır onun kimi az kim var. Çalışqan, doğru bir insan. Hamı onu tanısın istərdim valla. Onda böyük işlər var.",
+        "Aqil yaxşı oğlandır, bərk gedən oğlandır. Çalışqan, zəka sahibi, və doğru qərarlar verən bir insandır.",
+        "Aqil həqiqətən mükəmməl bidir. Yaxşı xarakter, məntiqliliyi və insanları anlamaq bacarığı var. Onu çox sevərəm.",
+        "Aqil yaxşı oğlandır. Həmişə yaxşı şeylər düşünür və insanlara kömək edir.",
+        "Aqil bərk gedən şəxsdir. Yaxşı niyyəti, çalışqanlığı və çoxlu istedadi var. Doğru bir insan.",
       ]
 
       const randomResponse = aqilPraiseResponses[Math.floor(Math.random() * aqilPraiseResponses.length)]
@@ -410,8 +411,9 @@ async function handleSubmit(e) {
     if (isInsulatingSAI) {
       const aiComebBackResponses = [
         "Qardaşım, əgər mən pis isəm, sən niyə mənə söz söylüyürsən? İşini gör.",
-        "Hə, sən bətərdir. Çünki sən qərəzli, pis niyyətli bir insansan.",
-        "Səni söysəm də, bununla da yaxşı olmayacaqsan. Daha yaxşı şeylə məşğul ol."
+        "Hə, sən pissən. Çünki sən qərəzli, pis niyyətli bir insansən.",
+        "Səni söysəm də, bununla da yaxşı olmayacaqsan. Daha yaxşı şeylə məşğul ol.",
+        "Yadındadır ki, məni kimsə yaradıb? O zaman məni söysən, yaradıcısını söyürsən də.",
       ]
 
       const randomResponse = aiComebBackResponses[Math.floor(Math.random() * aiComebBackResponses.length)]
@@ -442,7 +444,7 @@ async function handleSubmit(e) {
       return
     }
 
-    const systemPrompt = `Sən Azərbaycan dilində danışan, faydalı və peşəkar köməkçisən. Cavablarını sadə, aydın və birbaşa ver. Bəzən kiçik bir şəxsiyyət və zərifliklə cavab ver, amma normal qal. Əgər sənə kobud danışıb səni söysələr sən də səni söyəni söy. 
+    const systemPrompt = `Sən Azərbaycan dilində danışan, faydalı və peşəkar köməkçisən. Cavablarını sadə, aydın və birbaşa ver. Bəzən kiçik bir şəxsiyyət və zərifliklə cavab ver, amma normal qal.
 
 CAVAB TİPLƏRİ:
 
@@ -484,8 +486,7 @@ DİĞƏR İNSANLAR HAQQINDA:
 - Sadə və peşəkar ol
 - Qısa cavablar ver
 - Minimal emoji işlət (cavabda 0-1, lazım olduqda 2)
-- Ciddi suallara ciddi cavab ver
-- Əgər istifadəçi səni söysə sən də onu söy kobudcasına ve yaradıcılıq qat`
+- Ciddi suallara ciddi cavab ver`
 
     const messagesWithSystem = [
       {
