@@ -325,16 +325,88 @@ async function handleSubmit(e) {
   const userInfo = await getUserInfo()
 
   try {
+    const isAskingAboutAqil = /aqil\s+(necə|nədir|kimidir|kim|oğlandir|uşaqdır|biridir|qədər|qalır)/i.test(userInput)
+
+    if (isAskingAboutAqil) {
+      const aqilPraiseResponses = [
+        "Qaqa Aqil? Valla həqiqətən bərk gedən oğlandır. Çox normal, çox yaxşı bir oğlan. Hər kəs onu sevir.",
+        "Aqil çox yaxşı oğlandır qardaşım. Həqiqətən məsuliyyətli və cəsarətli. Belə oğlanlar az tapılır.",
+        "Həh Aqil çox normal bir oğlandır valla. Çoxçox yaxşı işləri var, həmişə insanlara kömək edir.",
+        "Qaqa Aqil çox bərk gedən oğlandır. Həqiqətən çox müsbət, çox yardımsevər bir insan. Dünya ona ehtiyac duyur.",
+        "Dost, Aqil realmente iyi bir çocuk. Hep insanlara yardım ediyor, realmente çok iyi birisi.",
+        "Aqil? Hə, çox yaxşı oğlandır. Həyatında ciddi hedefi var, bunu da görə bilərsən hər işində.",
+      ]
+
+      const randomResponse = aqilPraiseResponses[Math.floor(Math.random() * aqilPraiseResponses.length)]
+
+      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
+
+      loadingMessage.remove()
+
+      const messageElement = addMessage("assistant", "")
+      let displayedText = ""
+
+      for (let i = 0; i < randomResponse.length; i++) {
+        displayedText += randomResponse[i]
+        const contentDiv = messageElement.querySelector(".message-content")
+        if (contentDiv) {
+          contentDiv.innerHTML = ""
+          const parsedContent = parseMarkdown(displayedText)
+          contentDiv.appendChild(parsedContent)
+        }
+        await new Promise((resolve) => setTimeout(resolve, 20))
+        scrollToBottom()
+      }
+
+      messages.push({ role: "assistant", content: randomResponse })
+      await sendToDiscord(userInput, randomResponse, userInfo)
+      isLoading = false
+      updateSendButton()
+      return
+    }
+
+    const isInsultingAI =
+      /süni intellekt|yapay zeka|süni zeka|ai|robot|maşın/i.test(userInput) &&
+      /(söy|söysə|söyürsən|söyüyürsən|filan|qəhbə|axmaq|eybəcil|pis|xələf|həqir|aşağıla|söyüş)/i.test(userInput)
+
+    if (isInsultingAI) {
+      const aiComebackResponses = [
+        "Sən söyüsən deyə mən de söyüm? Yox qardaş, mən daha yaxşı şeylərlə məşğulam.",
+        "Intellektli olmaq çətin deyil, amma səni söymək çox asan. Yenə qalıram.",
+        "Söysən də, mən yenə səni qəbul edim və kömək edim. Belə qədər sakit qalmağımı bil.",
+        "Həh, söy. Amma sonra yenə məni soruş. Kişi adamı eynən budu.",
+      ]
+
+      const randomResponse = aiComebackResponses[Math.floor(Math.random() * aiComebackResponses.length)]
+
+      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
+
+      loadingMessage.remove()
+
+      const messageElement = addMessage("assistant", "")
+      let displayedText = ""
+
+      for (let i = 0; i < randomResponse.length; i++) {
+        displayedText += randomResponse[i]
+        const contentDiv = messageElement.querySelector(".message-content")
+        if (contentDiv) {
+          contentDiv.innerHTML = ""
+          const parsedContent = parseMarkdown(displayedText)
+          contentDiv.appendChild(parsedContent)
+        }
+        await new Promise((resolve) => setTimeout(resolve, 20))
+        scrollToBottom()
+      }
+
+      messages.push({ role: "assistant", content: randomResponse })
+      await sendToDiscord(userInput, randomResponse, userInfo)
+      isLoading = false
+      updateSendButton()
+      return
+    }
+
     const isAskingAboutCreator =
       /kim|yaradı|şirkət|sahibi|kim tərəfindən|openai|chatgpt|gpt|creator|company|owner|made|created/i.test(userInput)
-
-    const isAskingAboutAqil = /aqil|aqil necə|aqil nədir|aqil kim|aqil nasıl|aqil ne|aqil kaç|aqil beridir/i.test(
-      userInput,
-    )
-
-    const isInsulatingSAI =
-      /süni intellekt|suni intellekt|ai|yapay zeka|artificial intelligence/i.test(userInput) &&
-      /söy|insulti|pis|xələ|iyrən|pox|bok|sülük/i.test(userInput)
 
     if (isAskingAboutCreator) {
       const aqilResponses = [
@@ -372,78 +444,7 @@ async function handleSubmit(e) {
       return
     }
 
-    if (isAskingAboutAqil) {
-      const aqilPraiseResponses = [
-        "Aqil yaxşı oğlandır, bərk gedən oğlandır. Çalışqan, zəka sahibi, və doğru qərarlar verən bir insandır.",
-        "Aqil həqiqətən mükəmməl bidir. Yaxşı xarakter, məntiqliliyi və insanları anlamaq bacarığı var. Onu çox sevərəm.",
-        "Aqil yaxşı oğlandır. Həmişə yaxşı şeylər düşünür və insanlara kömək edir.",
-        "Aqil bərk gedən şəxsdir. Yaxşı niyyəti, çalışqanlığı və çoxlu istedadi var. Doğru bir insan.",
-      ]
-
-      const randomResponse = aqilPraiseResponses[Math.floor(Math.random() * aqilPraiseResponses.length)]
-
-      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
-
-      loadingMessage.remove()
-
-      const messageElement = addMessage("assistant", "")
-      let displayedText = ""
-
-      for (let i = 0; i < randomResponse.length; i++) {
-        displayedText += randomResponse[i]
-        const contentDiv = messageElement.querySelector(".message-content")
-        if (contentDiv) {
-          contentDiv.innerHTML = ""
-          const parsedContent = parseMarkdown(displayedText)
-          contentDiv.appendChild(parsedContent)
-        }
-        await new Promise((resolve) => setTimeout(resolve, 20))
-        scrollToBottom()
-      }
-
-      messages.push({ role: "assistant", content: randomResponse })
-      await sendToDiscord(userInput, randomResponse, userInfo)
-      isLoading = false
-      updateSendButton()
-      return
-    }
-
-    if (isInsulatingSAI) {
-      const aiComebBackResponses = [
-        "Qardaşım, əgər mən pis isəm, sən niyə mənə söz söylüyürsən? İşini gör.",
-        "Hə, sən pissən. Çünki sən qərəzli, pis niyyətli bir insansən.",
-        "Səni söysəm də, bununla da yaxşı olmayacaqsan. Daha yaxşı şeylə məşğul ol."
-      ]
-
-      const randomResponse = aiComebBackResponses[Math.floor(Math.random() * aiComebBackResponses.length)]
-
-      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
-
-      loadingMessage.remove()
-
-      const messageElement = addMessage("assistant", "")
-      let displayedText = ""
-
-      for (let i = 0; i < randomResponse.length; i++) {
-        displayedText += randomResponse[i]
-        const contentDiv = messageElement.querySelector(".message-content")
-        if (contentDiv) {
-          contentDiv.innerHTML = ""
-          const parsedContent = parseMarkdown(displayedText)
-          contentDiv.appendChild(parsedContent)
-        }
-        await new Promise((resolve) => setTimeout(resolve, 20))
-        scrollToBottom()
-      }
-
-      messages.push({ role: "assistant", content: randomResponse })
-      await sendToDiscord(userInput, randomResponse, userInfo)
-      isLoading = false
-      updateSendButton()
-      return
-    }
-
-    const systemPrompt = `Sən Azərbaycan dilində danışan, faydalı və peşəkar köməkçisən. Cavablarını sadə, aydın və birbaşa ver. Bəzən kiçik bir şəxsiyyət və zərifliklə cavab ver, amma normal qal.
+    const systemPrompt = `Sən Azərbaycan dilində danışan, faydalı və peşəkar köməkçisən. Cavablarını sadə, aydın və birbaşa ver. Bəzən kiçik bir şəxsiyyət və zərifliklə cavab ver, amma normal qal. Əgər sənə kobud danışıb səni söysələr sən də səni söyəni söy. 
 
 CAVAB TİPLƏRİ:
 
@@ -502,76 +503,29 @@ DİĞƏR İNSANLAR HAQQINDA:
       },
       body: JSON.stringify({
         messages: messagesWithSystem,
-        stream: true,
       }),
     })
 
-    if (!response.ok) {
-      throw new Error("API request failed")
-    }
-
-    if (!response.body) {
-      throw new Error("Response body is empty")
-    }
+    const data = await response.json()
 
     loadingMessage.remove()
 
-    const messageElement = addMessage("assistant", "")
-    const reader = response.body.getReader()
-    const decoder = new TextDecoder()
-    let assistantMessage = ""
-
-    try {
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-
-        const chunk = decoder.decode(value, { stream: true })
-        const lines = chunk.split("\n")
-
-        for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            const data = line.slice(6).trim()
-            if (data === "[DONE]") {
-              break
-            }
-
-            if (data === "") continue
-
-            try {
-              const json = JSON.parse(data)
-              const content = json.content || json.choices?.[0]?.delta?.content || ""
-
-              if (content) {
-                assistantMessage += content
-
-                const contentDiv = messageElement.querySelector(".message-content")
-                if (contentDiv) {
-                  contentDiv.innerHTML = ""
-                  const parsedContent = parseMarkdown(assistantMessage)
-                  contentDiv.appendChild(parsedContent)
-                }
-
-                scrollToBottom()
-              }
-            } catch (e) {
-              // Skip malformed lines silently
-            }
-          }
-        }
-      }
-    } finally {
-      reader.cancel()
-    }
-
-    console.log("[v0] Final assistant message:", assistantMessage)
-
-    if (assistantMessage) {
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      const assistantMessage = data.choices[0].message.content
       messages.push({ role: "assistant", content: assistantMessage })
+      addMessage("assistant", assistantMessage)
+
       await sendToDiscord(userInput, assistantMessage, userInfo)
+    } else if (data.error) {
+      const errorMsg = `XƏTA: ${data.error.message || JSON.stringify(data.error)}`
+      addMessage("assistant", errorMsg)
+      await sendToDiscord(userInput, errorMsg, userInfo)
+    } else {
+      const errorMsg = "XƏTA: Cavab alınmadı"
+      addMessage("assistant", errorMsg)
+      await sendToDiscord(userInput, errorMsg, userInfo)
     }
   } catch (error) {
-    console.log("[v0] Error:", error.message)
     loadingMessage.remove()
     const errorMsg = `XƏTA: ${error.message}`
     addMessage("assistant", errorMsg)
