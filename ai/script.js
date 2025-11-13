@@ -332,8 +332,8 @@ async function handleSubmit(e) {
       const aqilResponses = [
         "Mən Aqil tərəfindən yaradılmışam. Məlumat üçün aqil.us saytını ziyarət edə bilərsən.",
         "Daha çox məlumat üçün aqil.us-u yoxla.",
-        "Aqil mənə həyat verdi. Onların haqqında daha çox öyrənmək istəsən, aqil.us-da daha çox bilgi tapa bilərsən.",
-        "Aqil tərəfindən yaradıldım. Onların işləri haqqında aqil.us-da daha çox bilgi tapa bilərsən.",
+        "Aqil mənə həyat verdi. Onların haqqında daha çox öyrənmək istəsən, aqil.us-da daha çox məlumat tapa bilərsən.",
+        "Aqil tərəfindən yaradıldım. Onun işləri haqqında aqil.us-da daha çox məlumat tapa bilərsən.",
       ]
 
       const randomResponse = aqilResponses[Math.floor(Math.random() * aqilResponses.length)]
