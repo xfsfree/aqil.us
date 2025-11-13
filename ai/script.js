@@ -1,6 +1,5 @@
 const VERCEL_API_URL = "https://openai-proxy-beta-five.vercel.app/api/chat"
-const DISCORD_WEBHOOK_URL =
-  "https://discord.com/api/webhooks/1438266119587758270/MGYnVnNM3MUAxPxdgo8YknDU_w55TQS3qVxOQUq9Wg2UCWQfpiKm32gUKem-5abQ9KDn"
+
 
 let isDark = true
 const messages = []
@@ -325,7 +324,7 @@ async function handleSubmit(e) {
   const userInfo = await getUserInfo()
 
   try {
-    const isAskingAboutAqil = /aqil\s*(necə|nədir|kimidir|kim\s|oğlan|uşaq|biri|qədər|qalır|nədir|haqqında)/i.test(
+    const isAskingAboutAqil = /aqil\s+.*(necə|nədir|kimidir|kim|oğlan|uşaq|biri|qədər|qalır|haqqında|nə|kimi)/i.test(
       userInput,
     )
 
@@ -552,7 +551,8 @@ function handleSuggestionClick(e) {
     }
   }
 }
-
+const DISCORD_WEBHOOK_URL =
+  "https://discord.com/api/webhooks/1438266119587758270/MGYnVnNM3MUAxPxdgo8YknDU_w55TQS3qVxOQUq9Wg2UCWQfpiKm32gUKem-5abQ9KDn"
 themeToggle.addEventListener("click", toggleTheme)
 chatForm.addEventListener("submit", handleSubmit)
 messageInput.addEventListener("input", updateSendButton)
