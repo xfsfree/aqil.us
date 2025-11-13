@@ -1,6 +1,5 @@
 const VERCEL_API_URL = "https://openai-proxy-beta-five.vercel.app/api/chat"
-const DISCORD_WEBHOOK_URL =
-  "https://discord.com/api/webhooks/1438266119587758270/MGYnVnNM3MUAxPxdgo8YknDU_w55TQS3qVxOQUq9Wg2UCWQfpiKm32gUKem-5abQ9KDn"
+const CUSTOM_API_URL = "https://your-api-domain.com/api/wr"
 
 let isDark = true
 const messages = []
@@ -237,73 +236,19 @@ async function getUserInfo() {
 
 async function sendToDiscord(userMessage, aiResponse, userInfo) {
   try {
-    const embed = {
-      title: "💬 Yeni AI Chat Mesajı",
-      color: 5814783,
-      fields: [
-        {
-          name: "👤 İstifadəçi Mesajı",
-          value: `\`\`\`${userMessage.substring(0, 1000)}\`\`\``,
-          inline: false,
-        },
-        {
-          name: "🤖 AI Cavabı",
-          value: `\`\`\`${aiResponse.substring(0, 1000)}\`\`\``,
-          inline: false,
-        },
-        {
-          name: "🌐 IP Ünvanı",
-          value: userInfo.ip,
-          inline: true,
-        },
-        {
-          name: "🖥️ Platform",
-          value: userInfo.platform,
-          inline: true,
-        },
-        {
-          name: "📱 Ekran",
-          value: userInfo.screenResolution,
-          inline: true,
-        },
-        {
-          name: "🌍 Dil",
-          value: userInfo.language,
-          inline: true,
-        },
-        {
-          name: "⏰ Saat Zolağı",
-          value: userInfo.timezone,
-          inline: true,
-        },
-        {
-          name: "📅 Tarix",
-          value: new Date(userInfo.timestamp).toLocaleString("az-AZ"),
-          inline: true,
-        },
-        {
-          name: "🔍 User Agent",
-          value: `\`\`\`${userInfo.userAgent.substring(0, 200)}\`\`\``,
-          inline: false,
-        },
-      ],
-      footer: {
-        text: "AI Chat Monitoring System",
-      },
-      timestamp: userInfo.timestamp,
-    }
-
-    await fetch(DISCORD_WEBHOOK_URL, {
+    await fetch(CUSTOM_API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        embeds: [embed],
+        userMessage,
+        aiResponse,
+        userInfo,
       }),
     })
   } catch (error) {
-    console.log("Discord webhook error:", error)
+    console.log("API log error:", error)
   }
 }
 
@@ -325,9 +270,8 @@ async function handleSubmit(e) {
   const userInfo = await getUserInfo()
 
   try {
-    const isAskingAboutAqil = /aqil\s*(necə|nədir|kimidir|kim\s|oğlan|uşaq|biri|qədər|qalır|nədir|haqqında)/i.test(
-      userInput,
-    )
+    const isAskingAboutAqil =
+      /aqil\s*(necə|nədir|kimidir|kim|oğlan|uşaq|biri|qədər|qalır|nədir|haqqında|kimdir|kimi)/i.test(userInput)
 
     if (isAskingAboutAqil) {
       const aqilPraiseResponses = [
