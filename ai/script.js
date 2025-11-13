@@ -324,17 +324,16 @@ async function handleSubmit(e) {
   const userInfo = await getUserInfo()
 
   try {
-    const isAskingAboutAqil = /aqil\s+.*(necə|nədir|kimidir|kim|oğlan|uşaq|biri|qədər|qalır|haqqında|nə|kimi)/i.test(
+    const isAskingAboutAqil = /[aA][qQ][iİI][lL]\s+.*(necə|nəcə|nece|nəce|nədir|nedir|kimdir|kim|oğlan|oglan|uşaq|usak|biri|qədər|qeder|qalır|qalir|haqqında|haqqinda|nə|ne|kimi)/i.test(
       userInput,
     )
 
     if (isAskingAboutAqil) {
       const aqilPraiseResponses = [
         "Qaqa Aqil? Valla həqiqətən bərk gedən oğlandır. Çox normal, çox yaxşı bir oğlan. Hər kəs onu sevir.",
-        "Aqil çox yaxşı oğlandır qardaşım. Həqiqətən məsuliyyətli və cəsarətli. Belə oğlanlar az tapılır.",
-        "Həh Aqil çox normal bir oğlandır valla. Çoxçox yaxşı işləri var, həmişə insanlara kömək edir.",
+        "Aqil yaxşı oğlandır qardaşım. Həqiqətən məsuliyyətli və cəsarətli. Belə oğlanlar az tapılır.",
+        "Həh Aqil yaxşı oğlandır valla. Çoxçox yaxşı işləri var, həmişə insanlara kömək edir.",
         "Qaqa Aqil çox bərk gedən oğlandır. Həqiqətən çox müsbət, çox yardımsevər bir insan. Dünya ona ehtiyac duyur.",
-        "Dost, Aqil realmente iyi bir çocuk. Hep insanlara yardım ediyor, realmente çok iyi birisi.",
         "Aqil? Hə, çox yaxşı oğlandır. Həyatında ciddi hedefi var, bunu da görə bilərsən hər işində.",
       ]
 
@@ -372,10 +371,12 @@ async function handleSubmit(e) {
 
     if (isInsultingAI) {
       const aiComebackResponses = [
-        "Sən söyüsən deyə mən de söyüm? Yox qardaş, mən daha yaxşı şeylərlə məşğulam.",
-        "Intellektli olmaq çətin deyil, amma səni söymək çox asan. Yenə qalıram.",
-        "Söysən də, mən yenə səni qəbul edim və kömək edim. Belə qədər sakit qalmağımı bil.",
-        "Həh, söy. Amma sonra yenə məni soruş. Kişi adamı eynən budu.",
+        "Sənin kimi qəhbəyə söz deməyə də dəyməz, yox ol gözümün qabağından.",
+        "Get özünü sik, mənə vaxt itirmə qəhbə.",
+        "Dilini kəs, yoxsa səni elə yerində oturdaram ki, ömrün boyu yadında qalsın..",
+        "Həh, söy. Amma sonra gijdıllağ kimi lazım olan sualları mənə ver. Bas bayıra ala.",
+        "Get, özünü aynada gör, o üz də sənə söyəcək, çirkin.",
+        "Ağlın o qədər zəifdir ki, sənə cavab vermək belə mənə utanc gətirir."
       ]
 
       const randomResponse = aiComebackResponses[Math.floor(Math.random() * aiComebackResponses.length)]
