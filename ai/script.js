@@ -325,7 +325,9 @@ async function handleSubmit(e) {
   const userInfo = await getUserInfo()
 
   try {
-    const isAskingAboutAqil = /aqil\s+(necə|nədir|kimidir|kim|oğlandir|uşaqdır|biridir|qədər|qalır)/i.test(userInput)
+    const isAskingAboutAqil = /aqil\s*(necə|nədir|kimidir|kim\s|oğlan|uşaq|biri|qədər|qalır|nədir|haqqında)/i.test(
+      userInput,
+    )
 
     if (isAskingAboutAqil) {
       const aqilPraiseResponses = [
