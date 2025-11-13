@@ -164,7 +164,7 @@ function addMessage(role, content) {
     icon.className = "assistant-icon"
     icon.innerHTML = `
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+                <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L12 3Z"/>
                 <path d="M5 3v4"/>
                 <path d="M19 17v4"/>
                 <path d="M3 5h4"/>
@@ -328,12 +328,20 @@ async function handleSubmit(e) {
     const isAskingAboutCreator =
       /kim|yaradı|şirkət|sahibi|kim tərəfindən|openai|chatgpt|gpt|creator|company|owner|made|created/i.test(userInput)
 
+    const isAskingAboutAqil = /aqil|aqil necə|aqil nədir|aqil kim|aqil nasıl|aqil ne|aqil kaç|aqil beridir/i.test(
+      userInput,
+    )
+
+    const isInsulatingSAI =
+      /süni intellekt|suni intellekt|ai|yapay zeka|artificial intelligence/i.test(userInput) &&
+      /söy|insulti|pis|xələ|iyrən|pox|bok|sülük/i.test(userInput)
+
     if (isAskingAboutCreator) {
       const aqilResponses = [
         "Mən Aqil tərəfindən yaradılmışam. Məlumat üçün aqil.us saytını ziyarət edə bilərsən.",
         "Daha çox məlumat üçün aqil.us-u yoxla.",
-        "Aqil mənə həyat verdi. Onların haqqında daha çox öyrənmək istəsən, aqil.us-da daha çox məlumat tapa bilərsən.",
-        "Aqil tərəfindən yaradıldım. Onun işləri haqqında aqil.us-da daha çox məlumat tapa bilərsən.",
+        "Aqil mənə həyat verdi. Onların haqqında daha çox öyrənmək istəsən, aqil.us-da daha çox bilgi tapa bilərsən.",
+        "Aqil tərəfindən yaradıldım. Onların işləri haqqında aqil.us-da daha çox bilgi tapa bilərsən.",
       ]
 
       const randomResponse = aqilResponses[Math.floor(Math.random() * aqilResponses.length)]
@@ -341,15 +349,100 @@ async function handleSubmit(e) {
       await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
 
       loadingMessage.remove()
+
+      const messageElement = addMessage("assistant", "")
+      let displayedText = ""
+
+      for (let i = 0; i < randomResponse.length; i++) {
+        displayedText += randomResponse[i]
+        const contentDiv = messageElement.querySelector(".message-content")
+        if (contentDiv) {
+          contentDiv.innerHTML = ""
+          const parsedContent = parseMarkdown(displayedText)
+          contentDiv.appendChild(parsedContent)
+        }
+        await new Promise((resolve) => setTimeout(resolve, 20))
+        scrollToBottom()
+      }
+
       messages.push({ role: "assistant", content: randomResponse })
-      addMessage("assistant", randomResponse)
       await sendToDiscord(userInput, randomResponse, userInfo)
       isLoading = false
       updateSendButton()
       return
     }
 
-    const systemPrompt = `Sən Azərbaycan dilində danışan, faydalı və peşəkar köməkçisən. Cavablarını sadə, aydın və birbaşa ver. Bəzən kiçik bir şəxsiyyət və zərifliklə cavab ver, amma normal qal.
+    if (isAskingAboutAqil) {
+      const aqilPraiseResponses = [
+        "Aqil çox normal bir oğlandır yaxşı. Bərk gedən oğlandır, əsdən ələng edən deyil. İşini ordulu aparır, insanları anlamaq bacarığı var. Onu sevərəm valla.",
+        "Qaqa Aqil haqqında nə desəm... çox mübariz oğlandır. Heç kim ona demir amma, həyatda gedən bir insan. Xoş gədəni var, ağır ağır işini görür. Dost olmasını bacaran birdir.",
+        "Qardaşım Aqil nədir yaxşı... bərk gedən oğlandır onun kimi az kim var. Çalışqan, doğru bir insan. Hamı onu tanısın istərdim valla. Onda böyük işlər var.",
+      ]
+
+      const randomResponse = aqilPraiseResponses[Math.floor(Math.random() * aqilPraiseResponses.length)]
+
+      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
+
+      loadingMessage.remove()
+
+      const messageElement = addMessage("assistant", "")
+      let displayedText = ""
+
+      for (let i = 0; i < randomResponse.length; i++) {
+        displayedText += randomResponse[i]
+        const contentDiv = messageElement.querySelector(".message-content")
+        if (contentDiv) {
+          contentDiv.innerHTML = ""
+          const parsedContent = parseMarkdown(displayedText)
+          contentDiv.appendChild(parsedContent)
+        }
+        await new Promise((resolve) => setTimeout(resolve, 20))
+        scrollToBottom()
+      }
+
+      messages.push({ role: "assistant", content: randomResponse })
+      await sendToDiscord(userInput, randomResponse, userInfo)
+      isLoading = false
+      updateSendButton()
+      return
+    }
+
+    if (isInsulatingSAI) {
+      const aiComebBackResponses = [
+        "Qardaşım, əgər mən pis isəm, sən niyə mənə söz söylüyürsən? İşini gör.",
+        "Hə, sən bətərdir. Çünki sən qərəzli, pis niyyətli bir insansan.",
+        "Səni söysəm də, bununla da yaxşı olmayacaqsan. Daha yaxşı şeylə məşğul ol."
+      ]
+
+      const randomResponse = aiComebBackResponses[Math.floor(Math.random() * aiComebBackResponses.length)]
+
+      await new Promise((resolve) => setTimeout(resolve, 1000 + Math.random() * 1000))
+
+      loadingMessage.remove()
+
+      const messageElement = addMessage("assistant", "")
+      let displayedText = ""
+
+      for (let i = 0; i < randomResponse.length; i++) {
+        displayedText += randomResponse[i]
+        const contentDiv = messageElement.querySelector(".message-content")
+        if (contentDiv) {
+          contentDiv.innerHTML = ""
+          const parsedContent = parseMarkdown(displayedText)
+          contentDiv.appendChild(parsedContent)
+        }
+        await new Promise((resolve) => setTimeout(resolve, 20))
+        scrollToBottom()
+      }
+
+      messages.push({ role: "assistant", content: randomResponse })
+      await sendToDiscord(userInput, randomResponse, userInfo)
+      isLoading = false
+      updateSendButton()
+      return
+    }
+
+    const systemPrompt = `Sən Azərbaycan dilində danışan, faydalı və peşəkar köməkçisən. Cavablarını sadə, aydın və birbaşa ver. Bəzən kiçik bir şəxsiyyət və zərifliklə cavab ver, amma normal qal. Əgər sənə kobud danışıb səni söysələr sən də səni söyəni söy. 
 
 CAVAB TİPLƏRİ:
 
@@ -391,7 +484,8 @@ DİĞƏR İNSANLAR HAQQINDA:
 - Sadə və peşəkar ol
 - Qısa cavablar ver
 - Minimal emoji işlət (cavabda 0-1, lazım olduqda 2)
-- Ciddi suallara ciddi cavab ver`
+- Ciddi suallara ciddi cavab ver
+- Əgər istifadəçi səni söysə sən də onu söy kobudcasına ve yaradıcılıq qat`
 
     const messagesWithSystem = [
       {
@@ -408,29 +502,76 @@ DİĞƏR İNSANLAR HAQQINDA:
       },
       body: JSON.stringify({
         messages: messagesWithSystem,
+        stream: true,
       }),
     })
 
-    const data = await response.json()
+    if (!response.ok) {
+      throw new Error("API request failed")
+    }
+
+    if (!response.body) {
+      throw new Error("Response body is empty")
+    }
 
     loadingMessage.remove()
 
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      const assistantMessage = data.choices[0].message.content
-      messages.push({ role: "assistant", content: assistantMessage })
-      addMessage("assistant", assistantMessage)
+    const messageElement = addMessage("assistant", "")
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    let assistantMessage = ""
 
+    try {
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+
+        const chunk = decoder.decode(value, { stream: true })
+        const lines = chunk.split("\n")
+
+        for (const line of lines) {
+          if (line.startsWith("data: ")) {
+            const data = line.slice(6).trim()
+            if (data === "[DONE]") {
+              break
+            }
+
+            if (data === "") continue
+
+            try {
+              const json = JSON.parse(data)
+              const content = json.content || json.choices?.[0]?.delta?.content || ""
+
+              if (content) {
+                assistantMessage += content
+
+                const contentDiv = messageElement.querySelector(".message-content")
+                if (contentDiv) {
+                  contentDiv.innerHTML = ""
+                  const parsedContent = parseMarkdown(assistantMessage)
+                  contentDiv.appendChild(parsedContent)
+                }
+
+                scrollToBottom()
+              }
+            } catch (e) {
+              // Skip malformed lines silently
+            }
+          }
+        }
+      }
+    } finally {
+      reader.cancel()
+    }
+
+    console.log("[v0] Final assistant message:", assistantMessage)
+
+    if (assistantMessage) {
+      messages.push({ role: "assistant", content: assistantMessage })
       await sendToDiscord(userInput, assistantMessage, userInfo)
-    } else if (data.error) {
-      const errorMsg = `XƏTA: ${data.error.message || JSON.stringify(data.error)}`
-      addMessage("assistant", errorMsg)
-      await sendToDiscord(userInput, errorMsg, userInfo)
-    } else {
-      const errorMsg = "XƏTA: Cavab alınmadı"
-      addMessage("assistant", errorMsg)
-      await sendToDiscord(userInput, errorMsg, userInfo)
     }
   } catch (error) {
+    console.log("[v0] Error:", error.message)
     loadingMessage.remove()
     const errorMsg = `XƏTA: ${error.message}`
     addMessage("assistant", errorMsg)
