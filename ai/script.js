@@ -412,8 +412,7 @@ async function handleSubmit(e) {
       const aiComebBackResponses = [
         "Qardaşım, əgər mən pis isəm, sən niyə mənə söz söylüyürsən? İşini gör.",
         "Hə, sən pissən. Çünki sən qərəzli, pis niyyətli bir insansən.",
-        "Səni söysəm də, bununla da yaxşı olmayacaqsan. Daha yaxşı şeylə məşğul ol.",
-        "Yadındadır ki, məni kimsə yaradıb? O zaman məni söysən, yaradıcısını söyürsən də.",
+        "Səni söysəm də, bununla da yaxşı olmayacaqsan. Daha yaxşı şeylə məşğul ol."
       ]
 
       const randomResponse = aiComebBackResponses[Math.floor(Math.random() * aiComebBackResponses.length)]
